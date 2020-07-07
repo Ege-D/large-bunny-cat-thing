@@ -1,15 +1,19 @@
-package com.ege.firebasetest
+package com.ege.firebasetest.versioncheck
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.ege.firebasetest.BuildConfig
+import com.ege.firebasetest.R
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var remoteConfig: FirebaseRemoteConfig
@@ -19,28 +23,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         remoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 2
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
-    }
-
-    fun buttonClicked(view: View) {
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
                     Log.d("SUCCESS:", "Config params updated: $updated")
-                    Toast.makeText(this, "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT).show()
+                    val version = BuildConfig.VERSION_NAME.toDouble()
+                    val checkedVersion = remoteConfig.getDouble("latest_stable_version")
+                    if(checkedVersion <= version) {
+                        Log.d("VERSION:", "Version check OK")
+                    } else {
+                        val versionSnackbar = Snackbar.make(findViewById(R.id.mainLayout), "Please update to the latest version.", Snackbar.LENGTH_INDEFINITE)
+                        versionSnackbar.setAction("Go to Play Store", GooglePlayListener())
+                        versionSnackbar.show()
+                    }
                 } else {
                     Toast.makeText(this, "Fetch failed",
                         Toast.LENGTH_SHORT).show()
                 }
-                button.text = remoteConfig.getBoolean("test_success_internet").toString()
-            }
 
+            }
     }
+    inner class GooglePlayListener : View.OnClickListener {
+        override fun onClick (view: View) {
+            val url = Uri.parse("https://play.google.com/store")
+            val launch = Intent(Intent.ACTION_VIEW)
+            launch.data = url
+            startActivity(launch)
+        }
+    }
+
+
 
 
 }
