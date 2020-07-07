@@ -15,8 +15,7 @@ import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.activity_home.*
 
 
-// ID: 936002256726-6a303763b968mcrera403vvppdhekq5l.apps.googleusercontent.com
-// Secret: 60cchU6aBbjgZ9ip0fFdi0BA
+
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
