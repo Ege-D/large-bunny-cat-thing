@@ -2,7 +2,9 @@ package com.ege.firebasetest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
@@ -24,7 +26,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun buttonClicked(view: View) {
-        button.text = remoteConfig.getString("test_success")
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d("SUCCESS:", "Config params updated: $updated")
+                    Toast.makeText(this, "Fetch and activate succeeded",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Fetch failed",
+                        Toast.LENGTH_SHORT).show()
+                }
+                button.text = remoteConfig.getBoolean("test_success_internet").toString()
+            }
+
     }
 
 
