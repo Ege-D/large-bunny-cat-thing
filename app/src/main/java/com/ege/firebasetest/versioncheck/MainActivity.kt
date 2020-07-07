@@ -14,6 +14,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var remoteConfig: FirebaseRemoteConfig
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
                     val checkedVersion = remoteConfig.getDouble("latest_stable_version")
                     if(checkedVersion <= version) {
                         Log.d("VERSION:", "Version check OK")
+                        val versionCheckIntent = Intent(this, HomeActivity::class.java)
+                        startActivity(versionCheckIntent)
                     } else {
                         val versionSnackbar = Snackbar.make(findViewById(R.id.mainLayout), "Please update to the latest version.", Snackbar.LENGTH_INDEFINITE)
                         versionSnackbar.setAction("Go to Play Store", GooglePlayListener())
