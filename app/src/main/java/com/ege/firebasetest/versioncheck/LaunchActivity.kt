@@ -36,7 +36,9 @@ class LaunchActivity : AppCompatActivity() {
                     val checkedVersion = remoteConfig.getDouble("latest_stable_version")
                     if(checkedVersion <= version) {
                         Log.d("VERSION:", "Version check OK")
+                        val registerBoolean = remoteConfig.getBoolean("register")
                         val versionCheckIntent = Intent(this, HomeActivity::class.java)
+                        versionCheckIntent.putExtra("register", registerBoolean)
                         startActivity(versionCheckIntent)
                     } else {
                         val versionSnackbar = Snackbar.make(findViewById(R.id.mainLayout), "Please update to the latest version.", Snackbar.LENGTH_INDEFINITE)
