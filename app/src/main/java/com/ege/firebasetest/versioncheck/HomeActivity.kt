@@ -21,8 +21,7 @@ import com.google.firebase.auth.ktx.auth
 import kotlinx.android.synthetic.main.activity_home.*
 
 
-// ID: 936002256726-6a303763b968mcrera403vvppdhekq5l.apps.googleusercontent.com
-// Secret: 60cchU6aBbjgZ9ip0fFdi0BA
+
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +37,13 @@ class HomeActivity : AppCompatActivity() {
         val googleSignInClient = GoogleSignIn.getClient(this, gso);
         homeLoginBtn.setOnClickListener(GoogleSignInListener(googleSignInClient))
         auth = Firebase.auth
+        homeCreatePostBtn.visibility = View.INVISIBLE
 
+    }
 
+    fun createPostClicked(view: View) {
+        val createPostIntent = Intent(this, CreatePostActivity::class.java)
+        startActivity(createPostIntent)
     }
     override fun onStart() {
         super.onStart()
@@ -47,6 +51,9 @@ class HomeActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             textView.text = currentUser.displayName.toString()
+            homeLoginBtn.visibility = View.INVISIBLE
+            homeRegisterBtn.visibility = View.INVISIBLE
+            homeCreatePostBtn.visibility = View.VISIBLE
         }
     }
 
@@ -97,6 +104,9 @@ class HomeActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     if (user != null) {
                         textView.text = user.displayName.toString()
+                        homeLoginBtn.visibility = View.INVISIBLE
+                        homeRegisterBtn.visibility = View.INVISIBLE
+                        homeCreatePostBtn.visibility = View.VISIBLE
                     }
                 } else {
                     // If sign in fails, display a message to the user.
@@ -104,6 +114,9 @@ class HomeActivity : AppCompatActivity() {
                     // ...
                     Snackbar.make(homeLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                     textView.text = "Hello World"
+                    homeLoginBtn.visibility = View.VISIBLE
+                    homeRegisterBtn.visibility = View.VISIBLE
+                    homeCreatePostBtn.visibility = View.INVISIBLE
                 }
 
                 // ...
