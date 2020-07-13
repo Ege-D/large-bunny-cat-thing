@@ -26,18 +26,13 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    lateinit var postListener: ValueEventListener
-    lateinit var data: Post
-    lateinit var postAdapter: PostAdapter
-    var posts = ArrayList<Post>()
-    private lateinit var linearLayoutManager: LinearLayoutManager
 
-    val postRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("post")
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        linearLayoutManager = LinearLayoutManager(this)
-        homePostList.layoutManager = linearLayoutManager
+
         val registerBoolean = intent.getBooleanExtra("register", true)
         homeRegisterBtn.isClickable = registerBoolean
         val gso =
@@ -50,9 +45,7 @@ class HomeActivity : AppCompatActivity() {
         auth = Firebase.auth
         homeCreatePostBtn.visibility = View.INVISIBLE
         homeListPostBtn.visibility = View.INVISIBLE
-        homePostList.visibility = View.INVISIBLE
-        postAdapter = PostAdapter(this, posts)
-        homePostList.adapter = postAdapter
+
 
     }
 
@@ -62,8 +55,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun listPostBtnClicked(view: View) {
-        postRef.addValueEventListener(postListener)
-        homePostList.visibility = View.VISIBLE
+        val listPostIntent = Intent(this, ListPostActivity::class.java)
+        startActivity(listPostIntent)
+
+
     }
 
     override fun onStart() {
@@ -79,23 +74,7 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        postListener = object: ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (childSnapshot in snapshot.children) {
-                    data = childSnapshot.getValue(Post::class.java)!!
-                    runOnUiThread {
-                        posts.add(data)
-                        postAdapter.notifyItemInserted(posts.size-1)
-                    }
-
-                }
-            }
-
-        }
 
     }
 
@@ -161,7 +140,7 @@ class HomeActivity : AppCompatActivity() {
                     homeRegisterBtn.visibility = View.VISIBLE
                     homeCreatePostBtn.visibility = View.INVISIBLE
                     homeListPostBtn.visibility = View.INVISIBLE
-                    homePostList.visibility = View.INVISIBLE
+
                 }
 
                 // ...
