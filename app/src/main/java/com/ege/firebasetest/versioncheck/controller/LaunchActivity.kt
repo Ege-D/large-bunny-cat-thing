@@ -1,4 +1,4 @@
-package com.ege.firebasetest.versioncheck
+package com.ege.firebasetest.versioncheck.controller
 
 import android.content.Intent
 import android.net.Uri

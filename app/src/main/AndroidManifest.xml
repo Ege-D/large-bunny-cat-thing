@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".versioncheck.CreatePostActivity"></activity>
-        <activity android:name=".versioncheck.HomeActivity" />
-        <activity android:name=".versioncheck.LaunchActivity">
+        <activity android:name=".versioncheck.controller.CreatePostActivity"></activity>
+        <activity android:name=".versioncheck.controller.HomeActivity" />
+        <activity android:name=".versioncheck.controller.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

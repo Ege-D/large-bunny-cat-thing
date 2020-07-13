@@ -1,4 +1,4 @@
-package com.ege.firebasetest.versioncheck
+package com.ege.firebasetest.versioncheck.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,7 +28,11 @@ class CreatePostActivity : AppCompatActivity() {
         body: String?,
         database: DatabaseReference
     ) {
-        val post = Post(title, body)
+        val post =
+            Post(
+                title,
+                body
+            )
         database.child("post").child(postId).setValue(post)
     }
 
