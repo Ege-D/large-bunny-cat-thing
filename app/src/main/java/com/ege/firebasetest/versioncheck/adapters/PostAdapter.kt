@@ -13,10 +13,12 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val title = itemView?.findViewById<TextView>(R.id.postListTitleTxt)
         val body = itemView?.findViewById<TextView>(R.id.postListBodyTxt)
+        val timeStamp = itemView?.findViewById<TextView>(R.id.postListTimeTxt)
 
         fun bindPost(context: Context, post: Post) {
             title?.text = post.title
             body?.text = post.body
+            timeStamp?.text = post.timeStamp
         }
     }
 

@@ -2,6 +2,7 @@ package com.ege.firebasetest.versioncheck.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ege.firebasetest.R
 import com.ege.firebasetest.versioncheck.adapters.PostAdapter
@@ -33,7 +34,7 @@ class ListPostActivity : AppCompatActivity() {
         super.onStart()
         postListener = object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-
+                Log.w("CANCEL: ", "ListPostActivity:onCancelled")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
