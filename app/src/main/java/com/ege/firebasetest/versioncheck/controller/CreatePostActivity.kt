@@ -38,7 +38,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     fun createPostSendClicked(view: View) {
         database = Firebase.database.reference
-        val timeStamp = (System.currentTimeMillis())
+        val timeStamp = System.currentTimeMillis()
         if (createPostTitleTxt.text.isNotEmpty() && createPostBodyTxt.text.isNotEmpty()) {
             database.push().key?.let {
                 writeNewPost(

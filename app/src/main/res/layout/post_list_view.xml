@@ -44,4 +44,18 @@
         app:layout_constraintStart_toEndOf="@+id/postListTitleTxt"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="date" />
+
+    <TextView
+        android:id="@+id/postListDateAgoTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/postListBodyTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0 minutes ago" />
 </androidx.constraintlayout.widget.ConstraintLayout>
