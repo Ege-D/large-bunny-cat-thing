@@ -15,6 +15,7 @@ class ListPostActivity : AppCompatActivity() {
     lateinit var postAdapter: PostAdapter
     lateinit var data: Post
 
+
     var posts = ArrayList<Post>()
     val postRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("post")
 

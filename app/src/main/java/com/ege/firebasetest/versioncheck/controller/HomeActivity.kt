@@ -20,14 +20,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
-
-
+import kotlin.properties.Delegates
 
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +42,6 @@ class HomeActivity : AppCompatActivity() {
         auth = Firebase.auth
         homeCreatePostBtn.visibility = View.INVISIBLE
         homeListPostBtn.visibility = View.INVISIBLE
-
 
     }
 
