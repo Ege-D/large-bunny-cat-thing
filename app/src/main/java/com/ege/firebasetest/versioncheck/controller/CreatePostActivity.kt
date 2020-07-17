@@ -59,29 +59,33 @@ class CreatePostActivity : AppCompatActivity() {
         val imageRef = storageRef.child("images/${file.lastPathSegment}")
         val uploadTask = imageRef.putFile(file)
 
+
+
+
         uploadTask.addOnFailureListener {
             Log.w("ERR: ", "Upload task error.", it.cause)
         }.addOnSuccessListener {
-            imageRef.downloadUrl.addOnSuccessListener {
-                URL = it
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                URL = uri
+                if (createPostTitleTxt.text.isNotEmpty() && createPostBodyTxt.text.isNotEmpty()) {
+                    database.push().key?.let {
+                        writeNewPost(
+                            it,
+                            createPostTitleTxt.text.toString(),
+                            createPostBodyTxt.text.toString(),
+                            timeStamp,
+                            URL.toString(),
+                            database
+                        )
+                    }
+
+                }
             }.addOnFailureListener {
                 Log.w("ERR: ", "Couldn't get URL.", it.cause)
             }
-        }
+      }
 
-        if (createPostTitleTxt.text.isNotEmpty() && createPostBodyTxt.text.isNotEmpty()) {
-            database.push().key?.let {
-                writeNewPost(
-                    it,
-                    createPostTitleTxt.text.toString(),
-                    createPostBodyTxt.text.toString(),
-                    timeStamp,
-                    URL.toString(),
-                    database
-                )
-            }
 
-        }
 
         val homeIntent = Intent(this, HomeActivity::class.java)
         startActivity(homeIntent)

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ege.firebasetest.R
 import com.ege.firebasetest.versioncheck.model.Post
 import java.time.Instant
@@ -30,7 +31,13 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
             body?.text = post.body
             date?.text = getDateTime(post.timeStamp)
             dateAgo?.text = getDateAgo(post.timeStamp)
-            image?.setImageURI(Uri.parse(post.URL))
+            if (image != null) {
+                Glide.with(context)
+                    .load(post.URL)
+                    .override(200, 200)
+                    .centerCrop()
+                    .into(image)
+            }
         }
     }
 
