@@ -30,6 +30,7 @@ class ListPostActivity : AppCompatActivity() {
         homePostList.adapter = postAdapter
 
 
+
     }
 
     override fun onStart() {

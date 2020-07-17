@@ -1,15 +1,18 @@
 package com.ege.firebasetest.versioncheck.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ege.firebasetest.R
+import com.ege.firebasetest.versioncheck.controller.PostDetailActivity
 import com.ege.firebasetest.versioncheck.model.Post
 import java.time.Instant
 import java.time.LocalDateTime
@@ -21,15 +24,11 @@ import kotlin.math.floor
 class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>(){
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val title = itemView?.findViewById<TextView>(R.id.postListTitleTxt)
-        val body = itemView?.findViewById<TextView>(R.id.postListBodyTxt)
-        val date = itemView?.findViewById<TextView>(R.id.postListDateTxt)
         val dateAgo = itemView?.findViewById<TextView>(R.id.postListDateAgoTxt)
         val image = itemView?.findViewById<ImageView>(R.id.postListImageView)
 
         fun bindPost(context: Context, post: Post) {
             title?.text = post.title
-            body?.text = post.body
-            date?.text = getDateTime(post.timeStamp)
             dateAgo?.text = getDateAgo(post.timeStamp)
             if (image != null) {
                 Glide.with(context)
@@ -52,11 +51,19 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindPost(context, posts[position])
+        holder.itemView.setOnClickListener {
+            val postDetailIntent = Intent(context, PostDetailActivity::class.java)
+            postDetailIntent.putExtra("title", posts[position].title)
+            postDetailIntent.putExtra("body", posts[position].body)
+            postDetailIntent.putExtra("date", getDateTime(posts[position].timeStamp))
+            postDetailIntent.putExtra("image", posts[position].URL)
+            context.startActivity(postDetailIntent)
+        }
     }
 
     fun getDateTime(timeStamp: Long?): String? {
         val date = LocalDateTime.ofInstant(timeStamp?.let { Instant.ofEpochMilli(it) }, ZoneId.systemDefault())
-        val formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy, HH:mm")
         return date.format(formatter)
     }
 
