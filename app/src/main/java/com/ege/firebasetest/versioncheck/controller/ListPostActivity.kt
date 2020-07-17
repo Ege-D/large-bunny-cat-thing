@@ -2,6 +2,8 @@ package com.ege.firebasetest.versioncheck.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ege.firebasetest.R
 import com.ege.firebasetest.versioncheck.adapters.PostAdapter
@@ -38,6 +40,10 @@ class ListPostActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                homePostSpinner.visibility = View.VISIBLE
+                posts.clear()
+                postAdapter.notifyDataSetChanged()
+
                 for (childSnapshot in snapshot.children) {
                     data = childSnapshot.getValue(Post::class.java)!!
                     runOnUiThread {
@@ -46,11 +52,14 @@ class ListPostActivity : AppCompatActivity() {
                     }
 
                 }
+                homePostSpinner.visibility = View.INVISIBLE
+
             }
 
         }
         postRef.addValueEventListener(postListener)
     }
+
 
 
 }
