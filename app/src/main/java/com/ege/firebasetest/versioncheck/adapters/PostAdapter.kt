@@ -53,20 +53,28 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
         val dateNow = System.currentTimeMillis()
         val dateAgo = (dateNow - timeStamp!!)/1000
         var stringAgo : String? = ""
-        if (dateAgo < 60) {
-            stringAgo = "${dateAgo.toString()} seconds ago"
-        } else if (dateAgo < 3600) {
-            stringAgo = "${floor(((dateAgo/60).toDouble())).toString().dropLast(2)} minutes ago"
-        } else if (dateAgo < 86400) {
-            stringAgo = "${floor(((dateAgo/3600).toDouble())).toString().dropLast(2)} hours ago"
-        } else if (dateAgo < 604800) {
-            stringAgo = "${floor(((dateAgo/86400).toDouble())).toString().dropLast(2)} days ago"
-        } else if (dateAgo < 2629743.83) {
-            stringAgo = "${floor(((dateAgo/604800).toDouble())).toString().dropLast(2)} weeks ago"
-        } else if (dateAgo < 31556926) {
-            stringAgo = "${floor(((dateAgo/2629743.83).toDouble())).toString().dropLast(2)} months ago"
-        } else {
-            stringAgo = "${floor(((dateAgo/31556926).toDouble())).toString().dropLast(2)} years ago"
+        when {
+            dateAgo < 60 -> {
+                stringAgo = "${dateAgo.toString()} seconds ago"
+            }
+            dateAgo < 3600 -> {
+                stringAgo = "${floor(((dateAgo/60).toDouble())).toString().dropLast(2)} minutes ago"
+            }
+            dateAgo < 86400 -> {
+                stringAgo = "${floor(((dateAgo/3600).toDouble())).toString().dropLast(2)} hours ago"
+            }
+            dateAgo < 604800 -> {
+                stringAgo = "${floor(((dateAgo/86400).toDouble())).toString().dropLast(2)} days ago"
+            }
+            dateAgo < 2629743.83 -> {
+                stringAgo = "${floor(((dateAgo/604800).toDouble())).toString().dropLast(2)} weeks ago"
+            }
+            dateAgo < 31556926 -> {
+                stringAgo = "${floor(((dateAgo/2629743.83).toDouble())).toString().dropLast(2)} months ago"
+            }
+            else -> {
+                stringAgo = "${floor(((dateAgo/31556926).toDouble())).toString().dropLast(2)} years ago"
+            }
         }
         return stringAgo
     }

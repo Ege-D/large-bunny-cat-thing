@@ -1,5 +1,6 @@
 package com.ege.firebasetest.versioncheck.controller
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_create_post.*
 
 class CreatePostActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
+
+    private val REQUEST_CODE = 100
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_post)
@@ -54,4 +57,18 @@ class CreatePostActivity : AppCompatActivity() {
         val homeIntent = Intent(this, HomeActivity::class.java)
         startActivity(homeIntent)
     }
+
+    fun createPostAddBtnClicked(view: View) {
+        val galleryIntent = Intent(Intent.ACTION_PICK)
+        galleryIntent.type = "image/*"
+        startActivityForResult(galleryIntent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+
+        }
+    }
+
 }
