@@ -1,9 +1,11 @@
 package com.ege.firebasetest.versioncheck.adapters
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ege.firebasetest.R
@@ -21,12 +23,14 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
         val body = itemView?.findViewById<TextView>(R.id.postListBodyTxt)
         val date = itemView?.findViewById<TextView>(R.id.postListDateTxt)
         val dateAgo = itemView?.findViewById<TextView>(R.id.postListDateAgoTxt)
+        val image = itemView?.findViewById<ImageView>(R.id.postListImageView)
 
         fun bindPost(context: Context, post: Post) {
             title?.text = post.title
             body?.text = post.body
             date?.text = getDateTime(post.timeStamp)
             dateAgo?.text = getDateAgo(post.timeStamp)
+            image?.setImageURI(Uri.parse(post.URL))
         }
     }
 
