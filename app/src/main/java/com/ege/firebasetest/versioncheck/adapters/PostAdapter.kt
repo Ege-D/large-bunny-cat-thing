@@ -55,17 +55,12 @@ class PostAdapter (val context: Context, val posts: ArrayList<Post>): RecyclerVi
             val postDetailIntent = Intent(context, PostDetailActivity::class.java)
             postDetailIntent.putExtra("title", posts[position].title)
             postDetailIntent.putExtra("body", posts[position].body)
-            postDetailIntent.putExtra("date", getDateTime(posts[position].timeStamp))
+            postDetailIntent.putExtra("date", posts[position].timeStamp)
             postDetailIntent.putExtra("image", posts[position].URL)
             context.startActivity(postDetailIntent)
         }
     }
 
-    fun getDateTime(timeStamp: Long?): String? {
-        val date = LocalDateTime.ofInstant(timeStamp?.let { Instant.ofEpochMilli(it) }, ZoneId.systemDefault())
-        val formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy, HH:mm")
-        return date.format(formatter)
-    }
 
     fun getDateAgo(timeStamp: Long?): String? {
         val dateNow = System.currentTimeMillis()
